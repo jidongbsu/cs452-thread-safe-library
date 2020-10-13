@@ -8,7 +8,7 @@ You will create the ThreadsafeBoundedList.c file in the wrapper-library subfolde
 
 Wrap an existing library
 
-First, we will create a monitor version of a doubly linked list library implementation (that is provided for you in the list folder). We will also add an additional feature to bound the capacity of the list. Since we don't have the source code for the list library, we will build a wrapper library that creates the monitor version around the original library. 
+First, we will create a monitor version (a monitor consists of a lock and one or more condition variables) of a doubly linked list library implementation (that is provided for you in the list folder). We will also add an additional feature to bound the capacity of the list. Since we don't have the source code for the list library, we will build a wrapper library that creates the monitor version around the original library. 
 
 The API for this library has been provided to you in the ThreadsafeBoundedList.h file in wrapper-library folder.
 
