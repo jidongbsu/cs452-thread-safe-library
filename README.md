@@ -18,15 +18,16 @@ struct tsb_list;
 
 We will provide a complete declaration in ThreadsafeBoundedList.c file as shown below. This makes the internals of the structure opaque to the users and they cannot directly modify those variables.
 
+```c
 struct tsb_list {
-struct list *list;
-int capacity;
-Boolean stop_requested;
-pthread_mutex_t mutex;
-pthread_cond_t listNotFull;
-pthread_cond_t listNotEmpty;
+ struct list *list;
+ int capacity;
+ Boolean stop_requested;
+ pthread_mutex_t mutex;
+ pthread_cond_t listNotFull;
+ pthread_cond_t listNotEmpty;
 };
-
+```
 We also provide wrapped versions of all the underlying functions from the list library as well as some additional functions. See the header file for details on the functions that you are wrapping. You will be creating and implementing these functions in the ThreadsafeBoundedList.c file. Each function should be protected by a mutex. If the list becomes full, then adding to the list shall block on a condition variable. If the list is empty, then removing from the list shall block on another condition variable.
 
 Relevant man pages are: 
