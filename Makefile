@@ -2,8 +2,8 @@
 CC=gcc
 
 INCLUDE=include/
-CFLAGS = -g -O -Wall -MMD  -I$(INCLUDE) -I../list/include/
-LIBS=-lpthread -Llib/ -lthreadsafe-mylib -L../list/lib/ -lmylib 
+CFLAGS = -g -O -Wall -MMD  -I$(INCLUDE) -I./list/include/
+LIBS=-lpthread -Llib/ -lthreadsafe-mylib -L./list/lib/ -lmylib 
 
 
 all: library pc

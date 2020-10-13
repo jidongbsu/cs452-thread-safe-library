@@ -1,7 +1,7 @@
 
 INSTALL=../
-LIB=../../list/lib
-INCLUDE=../../list/include
+LIB=../list/lib
+INCLUDE=..//list/include
 CC=gcc
 CFLAGS=-Wall -MMD -g -O   -O -fPIC -I$(INCLUDE)
 #CFLAGS=-Wall -O -fPIC -I. -I$(INCLUDE) 
