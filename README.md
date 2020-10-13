@@ -10,11 +10,13 @@ Wrap an existing library
 
 First, we will create a monitor version of a doubly linked list library implementation (that is provided for you in the list folder). We will also add an additional feature to bound the capacity of the list. Since we don't have the source code for the list library, we will build a wrapper library that creates the monitor version around the original library. 
 
-The API for this library has been provided to you in your backpack repo in the ThreadsafeBoundedList.h file in wrapper-library folder.
+The API for this library has been provided to you in the ThreadsafeBoundedList.h file in wrapper-library folder.
 
 We declare a structure that contains a pointer to the underlying list as well as additional variables to implement the monitor. However, we declare it incomplete in ThreadsafeBoundedList.h header file as shown below.
 
+```c
 struct tsb_list;
+```
 
 We will provide a complete declaration in ThreadsafeBoundedList.c file as shown below. This makes the internals of the structure opaque to the users and they cannot directly modify those variables.
 
