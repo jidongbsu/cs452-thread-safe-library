@@ -30,14 +30,14 @@ pthread_cond_t listNotEmpty;
 We also provide wrapped versions of all the underlying functions from the list library as well as some additional functions. See the header file for details on the functions that you are wrapping. You will be creating and implementing these functions in the ThreadsafeBoundedList.c file. Each function should be protected by a mutex. If the list becomes full, then adding to the list shall block on a condition variable. If the list is empty, then removing from the list shall block on another condition variable.
 
 Relevant man pages are: 
-pthread_mutex_init
-pthread_mutex_lock
-pthread_mutex_unlock
-pthread_cond_init
-pthread_cond_wait
-pthread_cond_signal
-pthread_cond_broadcast
-pthread_cond_destroy
+- pthread_mutex_init
+- pthread_mutex_lock
+- pthread_mutex_unlock
+- pthread_cond_init
+- pthread_cond_wait
+- pthread_cond_signal
+- pthread_cond_broadcast
+- pthread_cond_destroy
 
 ## Using the wrapper Library
 
@@ -64,9 +64,9 @@ Run the program several times for the same input arguments. Verify that the resu
 Use the testing script test-pc.sh provided in the assignment folder. 
 
 ## Submission
-Projects must be submitted by 23:59pm of the due date for full credit. Projects can be turned in up to 48 hours late without pre-approval from the instructor for a 10% penalty.  Any check-in activities to your backpack repository occur after the due date, but are within the 48 hours window, would cause the entire project to be considered as a late submission, and thus would incur a 10% penalty. Submission after the 48 hours window will not be graded.
+Create a private repository on github and give access permission to this account: jidongbsu (or using the email address: jidongxiao@boisestate.edu). You can use one repository for all 3 projects in this course, so that you only need to grant access permission to Jidong once.
 
-Due Date:  March 3rd, 2020.
+Due Date:  October 26th, 2020.
 
 ## Grading Rubric
 
