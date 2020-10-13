@@ -1,4 +1,4 @@
-Overview
+# Overview
 
 In this project, we will create a thread-safe version of an existing list library. We will then test it using a provided solution to the producers-consumers problem.
 
@@ -81,10 +81,10 @@ Projects must be submitted by 23:59pm of the due date for full credit. Projects 
 
 Due Date:  March 3rd, 2020.
 
-Grading Rubric
+## Grading Rubric
 
-[10 pts]  Compiling
+-[10 pts]  Compiling
   Each compiler warning will result in a 3 point deduction.
   You are not allowed to suppress warnings
-[80 pts]  Functional Requirements: single queue monitor
-[10 pts]	Documentation: README.md file
+-[80 pts]  Functional Requirements: single queue monitor
+-[10 pts]	Documentation: README.md file
