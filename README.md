@@ -80,7 +80,7 @@ Testing would be the same as before. An additional test script is test-pc-mq.sh.
 
 ## Due Date:  
 
-October 19th, 2021.
+September 30th, 2021.
 
 ## Grading Rubric (for Undergraduate students)
 
