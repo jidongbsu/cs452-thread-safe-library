@@ -66,15 +66,39 @@ Run the program several times for the same input arguments. Verify that the resu
 
 Use the testing script test-pc.sh provided in the assignment folder. 
 
-## Submission
-Create a private repository on github and give access permission to this account: jidongbsu (or using the email address: jidongxiao@boisestate.edu). You can use one repository for all 3 projects in this course, so that you only need to grant access permission to Jidong once.
+## Extra requirements (for Graduate Students only)
+Create another version of the testing program pc.c and call it pc-mq.c and adjust the Makefile accordingly.
 
-Due Date:  October 26th, 2020.
+Add another command line argument that allows the user to specify the number of queues (with the same size limit on each). The number of queues should be the first command line argument.
 
-## Grading Rubric
+Usage: pc-mq <#queues> <poolsize> <#items/producer> <#producers> <#consumers> <sleep interval(microsecs)
+                                                                                     
+Now modify your the testing code to create multiple queues and have the producers/consumers access the queues in a round-robin fashion, which is explained below.
+Suppose we have k queues. Then if the ith queue is full, the producer moves on to the (i+1) mod kth queue. Similarly if the ith queue is empty, the consumer moves on to the (i + 1) mod kth queue.
+
+Testing would be the same as before. An additional test script is test-pc-mq.sh. You could also informally test if multiple queues allows the producers and consumers to get their work done faster although that would depend on the mix of the work being simulated.
+
+## Due Date:  
+
+October 19th, 2021.
+
+## Grading Rubric (for Undergraduate students)
 
 - [10 pts] Compiling
   - Each compiler warning will result in a 3 point deduction.
   - You are not allowed to suppress warnings
 - [80 pts] Functional Requirements: single queue monitor
-- [10 pts] Documentation: README.md file
+- [10 pts] Documentation: README.md file (replace this current README with a new one using the template on the course page)
+
+Note: Running valgrind is not required anymore for this and the next 2 projects.
+                                                                                     
+ ## Grading Rubric (for Graduate students)
+
+- [10 pts] Compiling
+  - Each compiler warning will result in a 3 point deduction.
+  - You are not allowed to suppress warnings
+- [40 pts] Functional Requirements: single queue monitor
+- [40 pts] Functional Requirements: multiple queue monitor                                                                      
+- [10 pts] Documentation: README.md file (replace this current README with a new one using the template on the course page)
+                                                                                     
+Note: Running valgrind is not required anymore for this and the next 2 projects.
