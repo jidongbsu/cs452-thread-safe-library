@@ -90,8 +90,8 @@ All grading will be executed on onyx.boisestate.edu. Submissions that fail to co
   - Each compiler warning will result in a 3 point deduction.
   - You are not allowed to suppress warnings
 - [10 pts] Code quality
-[5 pts] Code is formatted correctly and follows a consistent style
-[5 pts] Code is commented when necessary
+  - [5 pts] Code is formatted correctly and follows a consistent style
+  - [5 pts] Code is commented when necessary
 - [70 pts] Functional Requirements: single queue monitor
 - [10 pts] Documentation: README.md file (replace this current README.md with a new one using the template on the course page)
 
@@ -105,8 +105,8 @@ All grading will be executed on onyx.boisestate.edu. Submissions that fail to co
   - Each compiler warning will result in a 3 point deduction.
   - You are not allowed to suppress warnings
 - [10 pts] Code quality
-[5 pts] Code is formatted correctly and follows a consistent style
-[5 pts] Code is commented when necessary
+  - [5 pts] Code is formatted correctly and follows a consistent style
+  - [5 pts] Code is commented when necessary
 - [40 pts] Functional Requirements: single queue monitor
 - [30 pts] Functional Requirements: multiple queue monitor                                                                      
 - [10 pts] Documentation: README.md file (replace this current README.md with a new one using the template on the course page)
