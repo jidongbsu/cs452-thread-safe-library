@@ -88,7 +88,7 @@ October 19th, 2021.
   - Each compiler warning will result in a 3 point deduction.
   - You are not allowed to suppress warnings
 - [80 pts] Functional Requirements: single queue monitor
-- [10 pts] Documentation: README.md file (replace this current README with a new one using the template on the course page)
+- [10 pts] Documentation: README.md file (replace this current README.md with a new one using the template on the course page)
 
 Note: Running valgrind is not required anymore for this and the next 2 projects.
                                                                                      
@@ -99,6 +99,6 @@ Note: Running valgrind is not required anymore for this and the next 2 projects.
   - You are not allowed to suppress warnings
 - [40 pts] Functional Requirements: single queue monitor
 - [40 pts] Functional Requirements: multiple queue monitor                                                                      
-- [10 pts] Documentation: README.md file (replace this current README with a new one using the template on the course page)
+- [10 pts] Documentation: README.md file (replace this current README.md with a new one using the template on the course page)
                                                                                      
 Note: Running valgrind is not required anymore for this and the next 2 projects.
