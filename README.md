@@ -84,6 +84,8 @@ October 19th, 2021.
 
 ## Grading Rubric (for Undergraduate students)
 
+All grading will be executed on onyx.boisestate.edu. Submissions that fail to compile will not being graded.
+                                                                                     
 - [10 pts] Compiling
   - Each compiler warning will result in a 3 point deduction.
   - You are not allowed to suppress warnings
@@ -94,6 +96,8 @@ Note: Running valgrind is not required anymore for this and the next 2 projects.
                                                                                      
  ## Grading Rubric (for Graduate students)
 
+All grading will be executed on onyx.boisestate.edu. Submissions that fail to compile will not being graded.
+                                                                                     
 - [10 pts] Compiling
   - Each compiler warning will result in a 3 point deduction.
   - You are not allowed to suppress warnings
