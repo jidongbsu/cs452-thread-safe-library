@@ -80,7 +80,7 @@ Testing would be the same as before. An additional test script is test-pc-mq.sh.
 
 ## Due Date:  
 
-23:59pm, October 19th, 2021.
+23:59pm, October 19th, 2021. 10% of penalty for late submission within 48 hours; 20% of penalty after the 48 hours window.
 
 ## Grading Rubric (for Undergraduate students)
 
