@@ -71,7 +71,7 @@ Create another version of the testing program pc.c and call it pc-mq.c and adjus
 
 Add another command line argument that allows the user to specify the number of queues (with the same size limit on each). The number of queues should be the first command line argument.
 
-Usage: pc-mq <#queues> <poolsize> <#items/producer> <#producers> <#consumers> <sleep interval(microsecs)
+Usage: pc-mq <#queues> <poolsize> <#items/producer> <#producers> <#consumers> <sleep interval(microsecs)>
                                                                                      
 Now modify your the testing code to create multiple queues and have the producers/consumers access the queues in a round-robin fashion, which is explained below.
 Suppose we have k queues. Then if the ith queue is full, the producer moves on to the (i+1) mod kth queue. Similarly if the ith queue is empty, the consumer moves on to the (i + 1) mod kth queue.
