@@ -19,10 +19,7 @@
 #define FALSE 0
 typedef int Boolean;
 
-
-
 struct tsb_list;
-
 
 /* prototypes of public methods */
 
@@ -47,39 +44,6 @@ struct tsb_list * tsb_createList(int (*equals)(const void *, const void *),
  * @param list a pointer to a <code>List</code>.
  */
 void tsb_freeList(struct tsb_list * list); /* destructor */
-
-/**
- * Returns the size of the given list.
- *
- * @param list a pointer to a <code>List</code>.
- * @return The current size of the list.
- */
-int tsb_getSize(struct tsb_list * list);
-
-/**
- * Returns the maximum capacity of the given list.
- *
- * @param list a pointer to a <code>List</code>.
- * @return The macimum capacity of the list.
- */
-int tsb_getCapacity(struct tsb_list * list);
-
-/**
- * Sets the maximum capacity of the given list.
- *
- * @param list a pointer to a <code>List</code>.
- * @param capacity the maximum allowed capacity of the list
- * @return none
- */
-void tsb_setCapacity(struct tsb_list * list, int capacity);
-
-/**
- * Checks if the list is empty.
- *
- * @param  list a pointer to a <code>List</code>.
- * @return true if the list is empty; false otherwise.
- */
-Boolean tsb_isEmpty(struct tsb_list * list);
 
 /**
  * Checks if the list is full.

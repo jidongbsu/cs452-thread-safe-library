@@ -77,7 +77,7 @@ int main(int argc, char **argv)
 	pthread_mutex_init(&mutex1, NULL);
 	pthread_mutex_init(&mutex2, NULL);
 
-	// start the  producers 
+	// start the producers 
 	counter1 = num_producers;
 	for (i=0; i < num_producers; i++) {
 	    status = pthread_create(&ptids[i], NULL, producer, NULL);
@@ -86,9 +86,8 @@ int main(int argc, char **argv)
 			exit(1);
 		}
 	}
-
 		
-	// start the  consumers 
+	// start the consumers 
 	numConsumed = 0;
 	pthread_mutex_init(&numConsumed_mutex, NULL);
 	counter2 = num_consumers;
@@ -99,7 +98,6 @@ int main(int argc, char **argv)
 			exit(1);
 		}
 	}
-		
 	
 	// wait for the producers and consumers to finish
 	for (i=0; i < num_producers; i++) {
@@ -111,7 +109,6 @@ int main(int argc, char **argv)
 		}
 	}
 	tsb_finishUp(pool);
-
 		
 	for (i=0; i < num_consumers; i++) {
 	    int status = pthread_join(ctids[i], NULL);
