@@ -132,42 +132,6 @@ NodePtr tsb_removeFront(struct tsb_list * list);
 NodePtr tsb_removeRear(struct tsb_list * list);
 
 /**
- * Removes the node pointed to by the given node pointer from the list and returns
- * the pointer to it. Assumes that the node is a valid node in the list. If the node
- * pointer is NULL, the function will do nothing and return NULL.
- *
- * @param list a pointer to a <code>List</code>.
- * @param node a pointer to the node to remove.
- * @return a pointer to the node that was removed.
- */
-NodePtr tsb_removeNode(struct tsb_list * list, NodePtr node);
-
-/**
- * Searches the list for a node with the given key and returns the pointer to the
- * found node.
- *
- * @param list a pointer to a <code>List</code>.
- * @param the object to search for.
- * @return a pointer to the node that was found. Or <code>NULL</code> if a node 
- * with the given key is not found or the list is <code>NULL</code> or empty.
- */
-NodePtr tsb_search(struct tsb_list * list, const void *obj);
-
-/**
- * Reverses the order of the given list.
- *
- * @param list a pointer to a <code>List</code>.
- */
-void tsb_reverseList(struct tsb_list *  list);
-
-/**
- * Prints the list.
- *
- * @param list a pointer to a <code>List</code>.
- */
-void tsb_printList(struct tsb_list * list);
-
-/**
  * Finish up the monitor by broadcasting to all waiting threads
  */
 void tsb_finishUp(struct tsb_list * list);
