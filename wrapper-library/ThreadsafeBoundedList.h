@@ -46,14 +46,6 @@ struct tsb_list * tsb_createList(int (*equals)(const void *, const void *),
 void tsb_freeList(struct tsb_list * list); /* destructor */
 
 /**
- * Checks if the list is full.
- *
- * @param  list a pointer to a <code>List</code>.
- * @return true if the list is full to capacity; false otherwise.
- */
-Boolean tsb_isFull(struct tsb_list * list);
-
-/**
  * Adds a node to the front of the list. After this method is called,
  * the given node will be the head of the list. (Node must be allocated
  * before it is passed to this function.) If the list and/or node are NULL,
