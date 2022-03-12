@@ -1,24 +1,101 @@
 # Overview
 
-In this project, we will create a thread-safe version of an existing list library. We will then test it using a provided solution to the producers-consumers problem.
+In this assignment, we will create a thread-safe version of an existing list library. We will then test it using a provided solution to the producer-consumer problem, which is also known as the bounded buffer problem. Note this is NOT a kernel project, and you should just develop your code on onyx, not in your virtual machine. Submissions fail to compile or run on onyx, will not be graded.
 
-You will create the ThreadsafeBoundedList.c file in the wrapper-library subfolder to complete the implementation of the thread-safe list library.
+## Learning Objectives
+
+- Gain more experience writing concurrent code.
+- Understand a well-known concurrent programming problem - the producer-consumer problem.
+- Explore the pthread library, and learn how to use locks and condition variables.
+
+## Book References
+
+Read these chapters carefully in order to prepare yourself for this assignment:
+
+- [Threads API](http://pages.cs.wisc.edu/~remzi/OSTEP/threads-api.pdf) 
+- [Locks](https://pages.cs.wisc.edu/~remzi/OSTEP/threads-locks.pdf)
+- [Condition Variables](https://pages.cs.wisc.edu/~remzi/OSTEP/threads-cv.pdf)
+
+## Starter Code
+
+The starter code looks like this:
+
+```console
+(base) [jidongxiao@onyx cs452-thread-safe-library]$ ls -R
+.:
+include  Item.c  Item.h  lib  list  Makefile  pc.c  README.md  test-pc.sh  wrapper-library
+
+./include:
+
+./lib:
+
+./list:
+include  lib  Makefile  README.md  SimpleTestList.c
+
+./list/include:
+List.h  Node.h
+
+./list/lib:
+libmylib.a  libmylib.so
+
+./wrapper-library:
+Makefile  ThreadsafeBoundedList.c  ThreadsafeBoundedList.h
+```
+
+You will be modifying *ThreadsafeBoundedList.c*, which is located in the wrapper-library subfolder. You should not modify the *ThreadsafeBoundedList.h* file in the same folder.
+
+A testing program, which is the solution to a producer-consumer problem, is provided in the starter code, called *pc.c*. You should not modify *pc.c*. To run this testing program, you just type *make* and run:
+
+```console
+(base) [jidongxiao@onyx thread-safe-library]$ ./pc 
+Usage: ./pc <poolsize> <#items/producer> <#producers> <#consumers> <sleep interval(microsecs)>
+(base) [jidongxiao@onyx thread-safe-library]$ ./pc 100 2000 5 5 1
+5 producers 5 consumers 10000 items 100 pool size
+I am producer thread 4 (with thread id = 7F2397F5A700)
+I am producer thread 3 (with thread id = 7F2397759700)
+I am producer thread 2 (with thread id = 7F2396F58700)
+I am producer thread 1 (with thread id = 7F2396757700)
+I am producer thread 0 (with thread id = 7F2395F56700)
+I am consumer thread 4 (with thread id = 7F2395755700)
+I am consumer thread 3 (with thread id = 7F2394F54700)
+I am consumer thread 2 (with thread id = 7F2387FFF700)
+I am consumer thread 1 (with thread id = 7F23877FE700)
+I am consumer thread 0 (with thread id = 7F2386FFD700)
+producer 0 finished
+producer 1 finished
+producer 2 finished
+producer 3 finished
+producer 4 finished
+consumer 0 finished
+consumer 1 finished
+consumer 2 finished
+consumer 3 finished
+consumer 4 finished
+ #items produced = 10000   #items consumed = 10000 
+```
+As can be seen, the testing program takes five arguments. The first argument is *poolsize*, which is the capacity of the doubly linked list - this is why the producer-consumer problem is also known as the bounded buffer problem - you can consider the doubly linked list as a buffer, whose size is limited. In the above example, from the command line, we specify the capacity of the doubly linked list as 100, so that means at most we can add 100 nodes into this list. The second argument describes how many items each producer will produce - we assume each producer will produce the same number of items. In the above example, we specify each producer to produce 2,000 items. The third argument specifies how many producer threads we want to create, and the fourth argument specifies how many consumer threads we want to create. In the above example, we set both to 5, but these two numbers do not need to be identical. For example, you can have 3 producers, and 4 consumers. The fifth argument is a sleep interval, we let producers and consumers to sleep for this interval so as to simulate the time of producing or consuming. You can just set it to 1, which represents 1 micro-second.
+
+In addition to the testing program, a bash script is also provided in the starter code, and it is called *test-pc.sh*. You should not modify *test-pc.sh*. This script will just call *pc* and test *pc* with various arguments so as to test it more comprehensively. You can run this script like this:
+
+```console
+(base) [jidongxiao@onyx cs452-thread-safe-library]$ ./test-pc.sh 
+```
+
+Note: if the test-pc.sh script you checked out is not an executable file, then you need to run "chmod +x test-pc.sh" to change it to an executable file.
 
 ## Specification
 
-Wrap an existing library
+A doubly linked list library is provided. As shown in the starter code, *./list/lib/libmylib.a* is the provided library. It is pre-compiled, meaning that you can use the library but you have no access to its source code. Coming with the library are two of its header files: List.h and Node.h, both are located in the list/include subfolder.
 
-First, we will create a monitor version (a monitor consists of a lock and one or more condition variables) of a doubly linked list library implementation (that is provided for you in the list folder). We will also add an additional feature to bound the capacity of the list. Since we don't have the source code for the list library, we will build a wrapper library that creates the monitor version around the original library. 
+This library does not support multiple threads, thus when a program with multiple threads attempts to access this library - manipulating the doubly linked list, there will be race conditions and the results may not be deterministic. Our goal in this assignment therefore is to make this library a thread-safe library. However, we do not have the source code of this library, which means we can not change the library directly, therefore we will build a wrapper library that creates the monitor version (a monitor consists of a lock and one or more condition variables) around the original library. We will also add an additional feature to bound the capacity of the list.
 
-The API for this library has been provided to you in the ThreadsafeBoundedList.h file in wrapper-library folder.
+To wrap this library, you will modify the *ThreadsafeBoundedList.c* file in the wrapper-library subfolder to complete the implementation of the thread-safe list library. In the remainder of this README, we will refer to this thread-safe list library as your library. In other words, in this assignment, there are two libraries, one is the original doubly linked list library, which is not thread-safe, the other is your library, which is thread-safe.
+ 
+The functions your library will provide are called your APIs, or your API functions, and these functions are specified in the *ThreadsafeBoundedList.h* file in wrapper-library folder. In other words, we define the prototype of all these API functions in *ThreadsafeBoundedList.h*, and you implement them in *ThreadsafeBoundedList.c*.
 
-We declare a structure that contains a pointer to the underlying list as well as additional variables to implement the monitor. However, we declare it incomplete in ThreadsafeBoundedList.h header file as shown below.
+## Pre-defined Data Structure
 
-```c
-struct tsb_list;
-```
-
-We will provide a complete declaration in ThreadsafeBoundedList.c file as shown below. This makes the internals of the structure opaque to the users and they cannot directly modify those variables.
+In ThreadsafeBoundedList.c, we definte a structure (*struct tsb_list*)  which contains a pointer to the underlying list as well as additional variables to implement the monitor.
 
 ```c
 struct tsb_list {
@@ -30,9 +107,23 @@ struct tsb_list {
  pthread_cond_t listNotEmpty;
 };
 ```
-We also provide wrapped versions of all the underlying functions from the list library as well as some additional functions. See the header file for details on the functions that you are wrapping. You will be creating and implementing these functions in the ThreadsafeBoundedList.c file. Each function should be protected by a mutex. If the list becomes full, then adding to the list shall block on a condition variable. If the list is empty, then removing from the list shall block on another condition variable.
 
-Relevant man pages are: 
+Explanation to each of the fields:
+
+- *list*: this is the original list we want to wrap and protect.
+
+- *capacity*: we set the capacity from the command line. In the testing program, this is called the *poolsize*.
+
+- *stop_requested*: read the Additional Function section and see if you can figure out why this field is needed, and how you should use it.
+
+- *mutex*: to make the list library thread-safe, each of its function should be protected by a mutex.
+
+- *listNotFull* and *listNotEmpty*: these are two condition variables. If the list becomes full, then adding to the list shall block on a condition variable (i.e., *listNotFull*). If the list is empty, then removing from the list shall block on another condition variable (*listNotEmpty*).
+
+## APIs
+
+I used the folowing pthread APIs:
+
 - pthread_mutex_init
 - pthread_mutex_lock
 - pthread_mutex_unlock
@@ -42,73 +133,54 @@ Relevant man pages are:
 - pthread_cond_broadcast
 - pthread_cond_destroy
 
-## Using the wrapper Library
+For each pthread API, read its man page to find out how to use it.
 
-We will simulate a size-bounded queue (implemented as a doubly-linked list with a limit on maximum size) being shared by multiple producers and multiple consumers running simultaneously. Suppose we have m producers and n consumers (where m and n are supplied as command line arguments).  The initial main process creates a global queue data structure so all threads can access it.  Then the main process creates m producer threads and n consumer threads.
+## More Details about the Testing Program (pc.c)
+
+In *pc.c*, we simulate a size-bounded queue (implemented as a doubly-linked list with a limit on maximum size) being shared by multiple producers and multiple consumers running simultaneously. Suppose we have m producers and n consumers (where m and n are supplied as command line arguments). The initial main process creates a global queue data structure so all threads can access it. Then the main process creates m producer threads and n consumer threads.
 
 We will fix the number of items each producer produces (as a command line argument). Then we will keep track of how many items each consumer actually consumed. At the end of the program, we print out the total number of items produced versus the total number of items consumed. These two numbers should be the same unless the program has race conditions.
 
-The items are a structure that contain an unique id (basically number the items 1, 2, 3, ... as they are entered in the queue) and also contains the index of the producer that created it.
+The items (defined in Item.c and Item.h) are a structure that contain an unique id (basically number the items 1, 2, 3, ... as they are entered in the queue) and also contains the index of the producer that created it.
 
-We have provided you with a working version of the producer-consumer test program in the file pc.c. You should not modify the test program pc.c. However, you will need to add an additional function finishUp() to your wrapper list class that allows the simulation to be stopped after the producers are done by signaling the consumers to clean up any remaining items in the queue.
+When running *pc* to test your library, the producers randomly insert new items at the front or back of the queue. Similarly the consumers randomly remove items from the front or back of the queue.
 
-The producer/consumer threads test program uses the monitor version of the doubly linked list to run the simulation.  To test your monitor version, the producers randomly insert new items at the front or back of the queue.  Similarly the consumers randomly remove items from the front or back of the queue.
+## Additional Function
 
-## Setup for libraries
-We are using two libraries in this project. The original linked list library libmylist.so  that is in the folder ./list/lib and the wrapper library libthreadsafe-mylib.so that is in the ./lib directory. You must export both paths in LD_LIBRARY_PATH for everything to work and the paths must be relative to the executable (pc).  For example, use the following command before running the pc executable:
+When all producers are finished producing and exited, it is possible that some consumers are still sleeping. The testing program therefore needs to wake up sleeping consumers (if any). As such, we need to provide a function so that the testing program can call it to wake up sleeping consumers. This function is called *tsb_finishUp*(). This function is currently called by the testing program, and therefore you need to implement it in your *ThreadsafeBoundedList.c*. This is the only function which you are required to implement but is not a wrapper of any function from the original library.
 
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./list/lib:./lib
+## Submission 
 
-## Notes on testing
-When testing your program limit the number of threads to less that ten and number of items produced per producer to less than ten thousand to avoid overloading onyx. On your system, you can test with higher values.
+23:59pm, March 29th, 2022. Late submissions will not be accepted/graded. 
 
-Run the program several times for the same input arguments. Verify that the results do not vary. Comment out the output statements. See if that changes the results for the number of items consumed or produced.
+## Project Layout
 
-Use the testing script test-pc.sh provided in the assignment folder. 
+All files necessary for compilation and testing need to be submitted, this includes source code files, header files, the original library, the bash script, and Makefile. The structure of the submission folder should be the same as what was given to you.
 
-## Extra requirements (for Graduate Students only)
-Create another version of the testing program pc.c and call it pc-mq.c and adjust the Makefile accordingly.
+Note: github does not like empty folders, when you check in, some of your folders may be empty: after running *make clean*, you may not have anything in the folder *include* and the folder *lib*. To check in empty folders, make sure you have an empty file called *.gitkeep* inside the folder. Otherwise, your check-in of the empty folder may fail - and the git command may not even warn you. That is why in the starter code, we see the *.gitkeep* file in these two folders.
 
-Add another command line argument that allows the user to specify the number of queues (with the same size limit on each). The number of queues should be the first command line argument.
+```console
+(base) [jidongxiao@onyx cs452-thread-safe-library]$ ls -a include/
+.  ..  .gitkeep
+(base) [jidongxiao@onyx cs452-thread-safe-library]$ ls -a lib/
+.  ..  .gitkeep
+```
 
-Usage: pc-mq <#queues> poolsize <#items/producer> <#producers> <#consumers> <sleep interval(microsecs)>
+These two folders do not contain any meaningful files at first, but once you run *make*, your wrapper library will be copied into *lib/*, and the header file of your library, which is *ThreadsafeBoundedList.h*, will be copied into *include/*, because that is where the testing program expects them to be.
+
+## Grading Rubric (for Undergraduate and Graduate students)
+
+All grading will be executed on onyx.boisestate.edu. Submissions that fail to compile on onyx will not be graded.
                                                                                      
-Now modify your the testing code to create multiple queues and have the producers/consumers access the queues in a round-robin fashion, which is explained below.
-Suppose we have k queues. Then if the ith queue is full, the producer moves on to the (i+1) mod kth queue. Similarly if the ith queue is empty, the consumer moves on to the (i + 1) mod kth queue.
-
-Testing would be the same as before. An additional test script is test-pc-mq.sh. You could also informally test if multiple queues allows the producers and consumers to get their work done faster although that would depend on the mix of the work being simulated.
-
-## Due Date:  
-
-23:59pm, October 19th, 2021. 10% of penalty for late submission within 48 hours; 20% of penalty after the 48 hours window.
-
-## Grading Rubric (for Undergraduate students)
-
-All grading will be executed on onyx.boisestate.edu. Submissions that fail to compile will not being graded.
-                                                                                     
+- [80 pts] Functional Requirements:
+  - [40 pts] Manually test: testing program *pc* produces expected results, when testing with 5 producers, 5 consumers, poolsize of 100, and each producer produces 2,000 items.
+  - [40 pts] Use the testing script: test-pc.sh produces expected results. 
+  - Definition of expected results: the total number of items consumed is equal to the total number of items produced, and the testing program or script does not crash, does not get stuck. 
 - [10 pts] Compiling
   - Each compiler warning will result in a 3 point deduction.
-  - You are not allowed to suppress warnings
-- [10 pts] Code quality
-  - [5 pts] Code is formatted correctly and follows a consistent style
-  - [5 pts] Code is commented when necessary
-- [70 pts] Functional Requirements: single queue monitor
-- [10 pts] Documentation: README.md file (replace this current README.md with a new one using the template on the course page)
+  - You are not allowed to suppress warnings.
+- [10 pts] Documentation:
+  - README.md file: replace this current README.md with a new one using the template. Do not check in this current README.
+  - You are required to fill in every section of the README template, missing 1 section will result in a 2-point deduction.
 
-Note: Running valgrind is not required anymore for this and the next 2 projects.
-                                                                                     
- ## Grading Rubric (for Graduate students)
-
-All grading will be executed on onyx.boisestate.edu. Submissions that fail to compile will not being graded.
-                                                                                     
-- [10 pts] Compiling
-  - Each compiler warning will result in a 3 point deduction.
-  - You are not allowed to suppress warnings
-- [10 pts] Code quality
-  - [5 pts] Code is formatted correctly and follows a consistent style
-  - [5 pts] Code is commented when necessary
-- [40 pts] Functional Requirements: single queue monitor
-- [30 pts] Functional Requirements: multiple queue monitor                                                                      
-- [10 pts] Documentation: README.md file (replace this current README.md with a new one using the template on the course page)
-                                                                                     
-Note: Running valgrind is not required anymore for this and the next 2 projects.
+Note: Running valgrind is not required anymore for this and future assignment.
