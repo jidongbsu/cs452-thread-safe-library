@@ -191,7 +191,7 @@ I used the folowing pthread APIs:
 - pthread_cond_broadcast()
 - pthread_cond_destroy()
 
-For each pthread API, read its man page to find out how to use it.
+For each pthread API, read its man page, or the referenced book chapter, to find out how to use it. 
 
 ## More Details about the Testing Program (pc.c)
 
