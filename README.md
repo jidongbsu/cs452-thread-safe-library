@@ -176,6 +176,8 @@ createList(equals, toString, freeObject);
 
 In other words, you just pass the first three arguments of your *tsb_createList*() to *createList*(). Note this above line is incomplete, because *createList*() returns a *struct list* type pointer, and you may want to use this return value, whereas the above line does not assign its return value to anything.
 
+To see how you should call the other functions defined in the original list library, refer to *list/include/List.h*, from there you can see their prototypes.
+
 ## APIs
 
 I used the folowing pthread APIs:
