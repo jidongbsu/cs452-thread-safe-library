@@ -114,7 +114,7 @@ Explanation to each of the fields:
 
 - *capacity*: we set the capacity from the command line. In the testing program, this is called the *poolsize*.
 
-- *stop_requested*: read the [Additional Function](additional-function) section and see if you can figure out why this field is needed, and how you should use it.
+- *stop_requested*: read the [Additional Function](#additional-function) section and see if you can figure out why this field is needed, and how you should use it.
 
 - *mutex*: to make the list library thread-safe, each of its function should be protected by a mutex. (exception: createList() does not need to be protected)
 
