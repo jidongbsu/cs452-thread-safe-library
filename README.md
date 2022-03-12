@@ -114,9 +114,9 @@ Explanation to each of the fields:
 
 - *capacity*: we set the capacity from the command line. In the testing program, this is called the *poolsize*.
 
-- *stop_requested*: read the Additional Function section and see if you can figure out why this field is needed, and how you should use it.
+- *stop_requested*: read the [Additional Function](additional-function) section and see if you can figure out why this field is needed, and how you should use it.
 
-- *mutex*: to make the list library thread-safe, each of its function should be protected by a mutex.
+- *mutex*: to make the list library thread-safe, each of its function should be protected by a mutex. (exception: createList() does not need to be protected)
 
 - *listNotFull* and *listNotEmpty*: these are two condition variables. If the list becomes full, then adding to the list shall block on a condition variable (i.e., *listNotFull*). If the list is empty, then removing from the list shall block on another condition variable (*listNotEmpty*).
 
@@ -185,13 +185,14 @@ I used the folowing pthread APIs:
 - pthread_mutex_init()
 - pthread_mutex_lock()
 - pthread_mutex_unlock()
+- pthread_mutex_destroy()
 - pthread_cond_init()
 - pthread_cond_wait()
 - pthread_cond_signal()
 - pthread_cond_broadcast()
 - pthread_cond_destroy()
 
-For each pthread API, read its man page, or the referenced book chapter, to find out how to use it. 
+For each pthread API, read its man page to find out how to use it. 
 
 ## More Details about the Testing Program (pc.c)
 

@@ -20,7 +20,7 @@
 #define NORMAL 1
 #define VERBOSE 2
 #define DEBUG NORMAL
-
+//#define DEBUG VERBOSE
 
 // prototypes for the producer and consumer thread's main functions.
 void *producer(void *ptr);
@@ -37,9 +37,9 @@ int counter1, counter2;
 pthread_t *ptids; // threads ids of the producer threads
 pthread_t *ctids; // threads ids of the consumer threads
 
-int numConsumed;
-int numProduced;
-pthread_mutex_t numConsumed_mutex; //keeps track of number producers that are done
+int numConsumed; // num of items that are consumed
+int numProduced; // num of items that are produced
+pthread_mutex_t numConsumed_mutex;
 
 int maxcount; // number of items each producer creates
 int sleep_interval; // in microseconds
@@ -69,7 +69,6 @@ int main(int argc, char **argv)
 	fprintf(stderr, "%d producers %d consumers %d items %d pool size\n",
 			num_producers, num_consumers, maxcount*num_producers, poolsize);
 	pool = tsb_createList(compareToItem, toStringItem, freeItem, poolsize);
-
 	
 	ptids = (pthread_t *)  malloc(sizeof(pthread_t)*num_producers);
 	ctids = (pthread_t *)  malloc(sizeof(pthread_t)*num_consumers);
@@ -102,7 +101,7 @@ int main(int argc, char **argv)
 	// wait for the producers and consumers to finish
 	for (i=0; i < num_producers; i++) {
 	    pthread_join(ptids[i], NULL);
-		if (DEBUG == NORMAL) printf("producer %d finished\n", i);
+		if (DEBUG >= NORMAL) printf("producer %d finished\n", i);
 		if (status != 0) {
 			perror("pc: thread join failed!");
 			exit(1);
@@ -112,7 +111,7 @@ int main(int argc, char **argv)
 		
 	for (i=0; i < num_consumers; i++) {
 	    int status = pthread_join(ctids[i], NULL);
-		if (DEBUG == NORMAL) printf("consumer %d finished\n", i);
+		if (DEBUG >= NORMAL) printf("consumer %d finished\n", i);
 		if (status != 0) {
 			perror("pc: thread join failed!");
 			exit(1);
@@ -135,11 +134,8 @@ int main(int argc, char **argv)
 	exit(0);
 }
 
-
-
-
 /**
-   The main  function for a producer thread.
+   The main function for a producer thread.
    
    @param ptr  Argument the main function for producer thread. Not used currently. 
 */
@@ -158,7 +154,7 @@ void *producer(void *ptr)
 		thread_number = counter1;
 	pthread_mutex_unlock(&mutex1);
 
-	if (DEBUG == NORMAL) printf("I am producer thread %d (with thread id = %lX)\n", thread_number, mytid);
+	if (DEBUG >= NORMAL) printf("I am producer thread %d (with thread id = %lX)\n", thread_number, mytid);
 
 	/* now produce the items and add them to the pool */
 	i = 0;
@@ -181,10 +177,8 @@ void *producer(void *ptr)
 	pthread_exit(0);
 }
 
-
-
 /**
-   The main  function for a consumer thread.
+   The main function for a consumer thread.
    
    @param ptr  Argument the main function for producer thread. Not used currently. 
 */
@@ -201,7 +195,7 @@ void *consumer(void *ptr)
 		thread_number = counter2;
 	pthread_mutex_unlock(&mutex2);
 
-	if (DEBUG == NORMAL) printf("I am consumer thread %d (with thread id = %lX)\n", thread_number, mytid);
+	if (DEBUG >= NORMAL) printf("I am consumer thread %d (with thread id = %lX)\n", thread_number, mytid);
 
 	/* consume the items by removing them from the pool and displaying them */
 	while (TRUE) {
