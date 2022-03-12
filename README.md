@@ -120,18 +120,74 @@ Explanation to each of the fields:
 
 - *listNotFull* and *listNotEmpty*: these are two condition variables. If the list becomes full, then adding to the list shall block on a condition variable (i.e., *listNotFull*). If the list is empty, then removing from the list shall block on another condition variable (*listNotEmpty*).
 
+## Data Structures Defined in the Original List Library
+
+The original list library defines *struct node* in *list/include/Node.h*:
+
+```c
+typedef struct node * NodePtr;
+
+struct node {
+        void *obj;
+        struct node *next;
+        struct node *prev;
+};
+```
+
+And it defines *struct list* in *list/include/List.h*:
+
+```c
+typedef struct list * ListPtr;
+
+struct list {
+  int size;
+  struct node *head;
+  struct node *tail;
+  int (*equals)(const void *, const void *);
+  char * (*toString)(const void *);
+  void (*freeObject)(void *);
+};
+```
+
+The internal of these two structures are not really important to you. But you need to be aware of the *size* field of *struct list*, which gives you the current size of the list. Knowning the current size of the list tells you if the list is full or not, and if the list is empty or not.
+
+Most of the functions you need to implement either take one single argument, which is *(struct tsb_list * list)*, or take two arguments, which are *(struct tsb_list * list, NodePtr nodeNode)*. The only exception is *tsb_createList*(). The prototype of *tsb_createList*() is:
+
+```c
+struct tsb_list * tsb_createList(int (*equals)(const void *, const void *),
+                   char * (*toString)(const void *),
+                   void (*freeObject)(void *),
+                                   int capacity);
+```
+
+This looks very complicated, but it is mainly because the original *createList*() has the following prototype.
+
+```c
+struct list* createList(int (*equals)(const void *, const void *),
+                        char *(*toString)(const void *),
+                        void (*freeObject)(void *));
+```
+
+You do not really need to understand what these arguments are doing, but in your *tsb_createList*(), you can call *createList*() as following:
+
+```c
+createList(equals, toString, freeObject);
+```
+
+In other words, you just pass the first three arguments of your *tsb_createList*() to *createList*(). Note this above line is incomplete, because *createList* returns a *struct list* type pointer, and you may want to use this return value, whereas the above line does not assign its return value to anything.
+
 ## APIs
 
 I used the folowing pthread APIs:
 
-- pthread_mutex_init
-- pthread_mutex_lock
-- pthread_mutex_unlock
-- pthread_cond_init
-- pthread_cond_wait
-- pthread_cond_signal
-- pthread_cond_broadcast
-- pthread_cond_destroy
+- pthread_mutex_init()
+- pthread_mutex_lock()
+- pthread_mutex_unlock()
+- pthread_cond_init()
+- pthread_cond_wait()
+- pthread_cond_signal()
+- pthread_cond_broadcast()
+- pthread_cond_destroy()
 
 For each pthread API, read its man page to find out how to use it.
 
