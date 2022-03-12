@@ -44,7 +44,7 @@ Makefile  ThreadsafeBoundedList.c  ThreadsafeBoundedList.h
 
 You will be modifying *ThreadsafeBoundedList.c*, which is located in the wrapper-library subfolder. You should not modify the *ThreadsafeBoundedList.h* file in the same folder.
 
-A testing program, which is the solution to a producer-consumer problem, is provided in the starter code, called *pc.c*. You should not modify *pc.c*. To run this testing program, you just type *make* and run:
+A testing program, which is the solution to the producer-consumer problem, is provided in the starter code, called *pc.c*. You should not modify *pc.c*. To run this testing program, you just type *make* and run:
 
 ```console
 (base) [jidongxiao@onyx thread-safe-library]$ ./pc 
@@ -95,7 +95,7 @@ The functions your library will provide are called your APIs, or your API functi
 
 ## Pre-defined Data Structure
 
-In ThreadsafeBoundedList.c, we definte a structure (*struct tsb_list*)  which contains a pointer to the underlying list as well as additional variables to implement the monitor.
+In ThreadsafeBoundedList.c, we define a structure (*struct tsb_list*)  which contains a pointer to the underlying list as well as additional variables to implement the monitor.
 
 ```c
 struct tsb_list {
