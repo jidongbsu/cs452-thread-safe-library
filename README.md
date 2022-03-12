@@ -73,7 +73,7 @@ consumer 3 finished
 consumer 4 finished
  #items produced = 10000   #items consumed = 10000 
 ```
-As can be seen, the testing program takes five arguments. The first argument is *poolsize*, which is the capacity of the doubly linked list - this is why the producer-consumer problem is also known as the bounded buffer problem - you can consider the doubly linked list as a buffer, whose size is limited. In the above example, from the command line, we specify the capacity of the doubly linked list as 100, so that means at most we can add 100 nodes into this list. The second argument describes how many items each producer will produce - we assume each producer will produce the same number of items. In the above example, we specify each producer to produce 2,000 items. The third argument specifies how many producer threads we want to create, and the fourth argument specifies how many consumer threads we want to create. In the above example, we set both to 5, but these two numbers do not need to be identical. For example, you can have 3 producers, and 4 consumers. The fifth argument is a sleep interval, we let producers and consumers to sleep for this interval so as to simulate the time of producing or consuming. You can just set it to 1, which represents 1 micro-second.
+As can be seen, the testing program takes five arguments. The first argument is *poolsize*, which is the capacity of the doubly linked list - this is why the producer-consumer problem is also known as the bounded buffer problem - you can consider the doubly linked list as a buffer, whose size is limited. In the above example, from the command line, we specify the capacity of the doubly linked list as 100, so that means at most we can add 100 nodes into this list. The second argument describes how many items each producer will produce - we assume each producer will produce the same number of items. In the above example, we specify each producer to produce 2,000 items. The third argument specifies how many producer threads we want to create, and the fourth argument specifies how many consumer threads we want to create. In the above example, we set both to 5, but these two numbers do not need to be identical. For example, you can have 3 producers, and 4 consumers. The fifth argument is a sleep interval, we let producers and consumers sleep for this interval so as to simulate the time of producing or consuming. You can just set it to 1, which represents 1 microsecond.
 
 In addition to the testing program, a bash script is also provided in the starter code, and it is called *test-pc.sh*. You should not modify *test-pc.sh*. This script will just call *pc* and test *pc* with various arguments so as to test it more comprehensively. You can run this script like this:
 
@@ -91,7 +91,7 @@ This library does not support multiple threads, thus when a program with multipl
 
 To wrap this library, you will modify the *ThreadsafeBoundedList.c* file in the wrapper-library subfolder to complete the implementation of the thread-safe list library. In the remainder of this README, we will refer to this thread-safe list library as your library. In other words, in this assignment, there are two libraries, one is the original doubly linked list library, which is not thread-safe, the other is your library, which is thread-safe.
  
-The functions your library will provide are called your APIs, or your API functions, and these functions are specified in the *ThreadsafeBoundedList.h* file in wrapper-library folder. In other words, we define the prototype of all these API functions in *ThreadsafeBoundedList.h*, and you implement them in *ThreadsafeBoundedList.c*.
+The functions your library will provide are called your APIs, or your API functions, and these functions are specified in the *ThreadsafeBoundedList.h* file in the wrapper-library folder. In other words, we define the prototype of all these API functions in *ThreadsafeBoundedList.h*, and you implement them in *ThreadsafeBoundedList.c*.
 
 ## Pre-defined Data Structure
 
@@ -116,7 +116,7 @@ Explanation to each of the fields:
 
 - *stop_requested*: read the [Additional Function](#additional-function) section and see if you can figure out why this field is needed, and how you should use it.
 
-- *mutex*: to make the list library thread-safe, each of its function should be protected by a mutex. (exception: createList() does not need to be protected)
+- *mutex*: to make the list library thread-safe, all of its functions should be protected by a mutex. (exception: createList() does not need to be protected)
 
 - *listNotFull* and *listNotEmpty*: these are two condition variables. If the list becomes full, then adding to the list shall block on a condition variable (i.e., *listNotFull*). If the list is empty, then removing from the list shall block on another condition variable (*listNotEmpty*).
 
@@ -149,7 +149,7 @@ struct list {
 };
 ```
 
-The internal of these two structures are not really important to you. But you need to be aware of the *size* field of *struct list*, which gives you the current size of the list. Knowning the current size of the list tells you if the list is full or not, and if the list is empty or not.
+The internal of these two structures are not really important to you. But you need to be aware of the *size* field of the *struct list*, which gives you the current size of the list. Knowing the current size of the list tells you if the list is full or not, and if the list is empty or not.
 
 Most of the functions you need to implement either take one single argument, which is *(struct tsb_list * list)*, or take two arguments, which are *(struct tsb_list * list, NodePtr nodeNode)*. The only exception is *tsb_createList*(). The prototype of *tsb_createList*() is:
 
@@ -180,7 +180,7 @@ To see how you should call the other functions defined in the original list libr
 
 ## APIs
 
-I used the folowing pthread APIs:
+I used the following pthread APIs:
 
 - pthread_mutex_init()
 - pthread_mutex_lock()
@@ -200,7 +200,7 @@ In *pc.c*, we simulate a size-bounded queue (implemented as a doubly-linked list
 
 We will fix the number of items each producer produces (as a command line argument). Then we will keep track of how many items each consumer actually consumed. At the end of the program, we print out the total number of items produced versus the total number of items consumed. These two numbers should be the same unless the program has race conditions.
 
-The items (defined in Item.c and Item.h) are a structure that contain an unique id (basically number the items 1, 2, 3, ... as they are entered in the queue) and also contains the index of the producer that created it.
+The items (defined in Item.c and Item.h) are defined as a structure which contains an unique id (basically number the items 1, 2, 3, ... as they are entered in the queue) and also contains the index of the producer that created it.
 
 When running *pc* to test your library, the producers randomly insert new items at the front or back of the queue. Similarly the consumers randomly remove items from the front or back of the queue.
 
