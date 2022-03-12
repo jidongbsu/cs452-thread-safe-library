@@ -91,7 +91,19 @@ This library does not support multiple threads, thus when a program with multipl
 
 To wrap this library, you will modify the *ThreadsafeBoundedList.c* file in the wrapper-library subfolder to complete the implementation of the thread-safe list library. In the remainder of this README, we will refer to this thread-safe list library as your library. In other words, in this assignment, there are two libraries, one is the original doubly linked list library, which is not thread-safe, the other is your library, which is thread-safe.
  
-The functions your library will provide are called your APIs, or your API functions, and these functions are specified in the *ThreadsafeBoundedList.h* file in the wrapper-library folder. In other words, we define the prototype of all these API functions in *ThreadsafeBoundedList.h*, and you implement them in *ThreadsafeBoundedList.c*.
+The functions your library will provide are listed below. These are called your APIs, or your API functions, and these functions are declared in the *ThreadsafeBoundedList.h* file in the wrapper-library folder. More specifically, we declare the prototype of all these API functions in *ThreadsafeBoundedList.h*, and you implement them in *ThreadsafeBoundedList.c*.
+
+```c
+tsb_createList()
+tsb_freeList()
+tsb_addAtFront()
+tsb_addAtRear()
+tsb_removeFront()
+tsb_removeRear()
+tsb_finishUp()
+```
+
+**Warning**: *tsb_addAtFront*(), *tsb_addAtRear*(), *tsb_removeFront*(), *tsb_removeRear*() look alike, thus you may decide to copy/paste code among them. And that is how you introduce bugs into your code. During your development, if your program is not working, the first question you should ask yourself is, did you copy/paste code among these four functions?
 
 ## Pre-defined Data Structure
 
